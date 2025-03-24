@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recruiter Search String Generator</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1>Recruiter Search String Generator</h1>
+                <p>Create optimized search strings for finding candidates based on job descriptions</p>
+                <div class="animated-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="input-section">
+                <h2><i class="fas fa-search"></i> Search Criteria</h2>
+                
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="manual-tab"><i class="fas fa-edit"></i> Manual Entry</button>
+                    <button class="tab-btn" data-tab="jd-tab"><i class="fas fa-file-alt"></i> Job Description</button>
+                </div>
+                
+                <div class="tab-content active-tab" id="manual-tab">
+                    <div class="form-group">
+                        <label for="job-title"><i class="fas fa-briefcase"></i> Job Title(s):</label>
+                        <input type="text" id="job-title" placeholder="e.g. Software Engineer, Developer, Programmer">
+                        <small>Separate multiple titles with commas</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="skills"><i class="fas fa-tools"></i> Required Skills:</label>
+                        <input type="text" id="skills" placeholder="e.g. JavaScript, React, Node.js">
+                        <small>Separate multiple skills with commas</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="experience"><i class="fas fa-clock"></i> Experience Level (years):</label>
+                        <input type="number" id="experience" min="0" placeholder="e.g. 3">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="education"><i class="fas fa-graduation-cap"></i> Education:</label>
+                        <input type="text" id="education" placeholder="e.g. Computer Science, Engineering">
+                        <small>Separate multiple degrees/fields with commas</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="location"><i class="fas fa-map-marker-alt"></i> Location:</label>
+                        <input type="text" id="location" placeholder="e.g. New York, Remote">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="certifications"><i class="fas fa-certificate"></i> Certifications:</label>
+                        <input type="text" id="certifications" placeholder="e.g. AWS, PMP, CISSP">
+                        <small>Separate multiple certifications with commas</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="exclude"><i class="fas fa-ban"></i> Exclude Terms:</label>
+                        <input type="text" id="exclude" placeholder="e.g. internship, junior">
+                        <small>Separate multiple terms with commas</small>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="jd-tab">
+                    <div class="form-group">
+                        <label for="job-description"><i class="fas fa-file-alt"></i> Paste Job Description:</label>
+                        <textarea id="job-description" placeholder="Paste the complete job description here..."></textarea>
+                        <small>Our AI will extract key requirements from the job description</small>
+                    </div>
+                    
+                    <div class="extraction-options">
+                        <div class="extraction-option">
+                            <input type="checkbox" id="extract-titles" checked>
+                            <label for="extract-titles">Job Titles</label>
+                        </div>
+                        <div class="extraction-option">
+                            <input type="checkbox" id="extract-skills" checked>
+                            <label for="extract-skills">Skills</label>
+                        </div>
+                        <div class="extraction-option">
+                            <input type="checkbox" id="extract-experience" checked>
+                            <label for="extract-experience">Experience</label>
+                        </div>
+                        <div class="extraction-option">
+                            <input type="checkbox" id="extract-education" checked>
+                            <label for="extract-education">Education</label>
+                        </div>
+                        <div class="extraction-option">
+                            <input type="checkbox" id="extract-certifications" checked>
+                            <label for="extract-certifications">Certifications</label>
+                        </div>
+                    </div>
+                    
+                    <button id="extract-btn"><i class="fas fa-magic"></i> Extract Requirements</button>
+                    
+                    <div class="extracted-data hidden">
+                        <h3><i class="fas fa-list"></i> Extracted Requirements</h3>
+                        <div class="extracted-item">
+                            <span class="label">Job Titles:</span>
+                            <span id="extracted-titles" class="value"></span>
+                        </div>
+                        <div class="extracted-item">
+                            <span class="label">Skills:</span>
+                            <span id="extracted-skills" class="value"></span>
+                        </div>
+                        <div class="extracted-item">
+                            <span class="label">Experience:</span>
+                            <span id="extracted-experience" class="value"></span>
+                        </div>
+                        <div class="extracted-item">
+                            <span class="label">Education:</span>
+                            <span id="extracted-education" class="value"></span>
+                        </div>
+                        <div class="extracted-item">
+                            <span class="label">Certifications:</span>
+                            <span id="extracted-certifications" class="value"></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group search-options">
+                    <label for="portal"><i class="fas fa-globe"></i> Job Portal:</label>
+                    <select id="portal">
+                        <option value="jobdiva" selected>JobDiva</option>
+                        <option value="linkedin">LinkedIn</option>
+                        <option value="indeed">Indeed</option>
+                        <option value="monster">Monster</option>
+                        <option value="dice">Dice</option>
+                        <option value="generic">Generic Boolean</option>
+                    </select>
+                </div>
+                
+                <div class="advanced-options">
+                    <div class="advanced-toggle">
+                        <i class="fas fa-cog"></i> Advanced Options
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="advanced-content hidden">
+                        <div class="form-group">
+                            <label for="search-mode"><i class="fas fa-sliders-h"></i> Search Mode:</label>
+                            <select id="search-mode">
+                                <option value="strict">Strict (AND between all terms)</option>
+                                <option value="balanced" selected>Balanced (Mix of AND/OR)</option>
+                                <option value="flexible">Flexible (More OR operators)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="priority-skills"><i class="fas fa-star"></i> Priority Skills:</label>
+                            <input type="text" id="priority-skills" placeholder="e.g. Python, AWS">
+                            <small>These skills will be given higher priority in the search</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="jobdiva-options hidden">
+                    <h3><i class="fas fa-cog"></i> JobDiva Advanced Search Options</h3>
+                    <div class="form-group">
+                        <label for="jobdiva-search-mode"><i class="fas fa-sliders-h"></i> Search Mode:</label>
+                        <select id="jobdiva-search-mode">
+                            <option value="strict">Strict (AND between all terms)</option>
+                            <option value="balanced" selected>Balanced (Mix of AND/OR)</option>
+                            <option value="flexible">Flexible (More OR operators)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="jobdiva-priority-skills"><i class="fas fa-star"></i> Priority Skills:</label>
+                        <input type="text" id="jobdiva-priority-skills" placeholder="e.g. Python, AWS">
+                        <small>These skills will be given higher priority in the search</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="resume-freshness"><i class="fas fa-calendar-alt"></i> Resume Freshness (days):</label>
+                        <div class="slider-container">
+                            <input type="range" id="resume-freshness" min="30" max="365" step="30" value="180">
+                            <span id="freshness-value">180</span>
+                        </div>
+                        <small>Only show resumes updated within this many days</small>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-award"></i> Resume Quality:</label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="resume-quality" value="high" checked>
+                                <span>High</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="resume-quality" value="medium">
+                                <span>Medium</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="resume-quality" value="any">
+                                <span>Any</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-filter"></i> Additional Filters:</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="filter-resumes-only" checked>
+                                <span>Resumes Only</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="filter-available-candidates">
+                                <span>Available Candidates</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="jobdiva-exclude-terms"><i class="fas fa-ban"></i> Exclude Terms:</label>
+                        <input type="text" id="jobdiva-exclude-terms" placeholder="e.g. internship, junior">
+                        <small>Separate multiple terms with commas</small>
+                    </div>
+                </div>
+                
+                <button id="generate-btn"><i class="fas fa-magic"></i> Generate Search String</button>
+            </div>
+            
+            <div class="output-section">
+                <h2><i class="fas fa-code"></i> Generated Search String</h2>
+                <div class="output-container">
+                    <div class="output" id="output"></div>
+                    <button id="copy-btn"><i class="fas fa-copy"></i> Copy</button>
+                </div>
+                
+                <div class="proximity-builder">
+                    <h3><i class="fas fa-link"></i> Proximity Search Builder</h3>
+                    <p>Create proximity searches for multi-word terms (e.g., "Java" ~3 "Developer")</p>
+                    <div class="form-group">
+                        <div class="proximity-inputs">
+                            <input type="text" id="term1" placeholder="First term">
+                            <span class="proximity-separator">~</span>
+                            <input type="number" id="proximity-distance" min="1" max="10" value="3">
+                            <input type="text" id="term2" placeholder="Second term">
+                        </div>
+                        <button id="add-proximity-btn"><i class="fas fa-plus"></i> Add to Search</button>
+                    </div>
+                </div>
+                
+                <div class="search-history">
+                    <h3><i class="fas fa-history"></i> Search History</h3>
+                    <ul id="history-list">
+                        <!-- Search history will be populated here -->
+                    </ul>
+                </div>
+                
+                <div class="saved-profiles">
+                    <h3><i class="fas fa-save"></i> Saved Search Profiles</h3>
+                    <div class="profile-actions">
+                        <input type="text" id="profile-name" placeholder="Profile name">
+                        <button id="save-profile-btn"><i class="fas fa-save"></i> Save Current</button>
+                    </div>
+                    <ul id="profiles-list">
+                        <!-- Saved profiles will be populated here -->
+                    </ul>
+                </div>
+                
+                <div class="search-tips">
+                    <h3><i class="fas fa-lightbulb"></i> Search Tips</h3>
+                    <ul>
+                        <li>Use this string in the search box of your chosen job portal</li>
+                        <li>Different portals may have slightly different search syntax</li>
+                        <li>Adjust the string as needed for best results</li>
+                        <li>Use quotes for exact phrase matching</li>
+                        <li>Boolean operators (AND, OR, NOT) help refine your search</li>
+                    </ul>
+                </div>
+                
+                <div class="jobdiva-tips hidden">
+                    <h3><i class="fas fa-lightbulb"></i> JobDiva Search Tips</h3>
+                    <ul>
+                        <li>Use the "Resume Freshness" filter to find recently updated resumes</li>
+                        <li>Use the "Resume Quality" filter to prioritize high-quality resumes</li>
+                        <li>Use the "Additional Filters" to narrow down your search results</li>
+                        <li>Use the "Exclude Terms" field to exclude unwanted terms from your search</li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>&copy; Recruiter Search String Generator by Ashish Singh</p>
+            <div class="footer-icons">
+                <i class="fas fa-code"></i>
+                <i class="fas fa-search"></i>
+                <i class="fas fa-file-alt"></i>
+            </div>
+        </footer>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
